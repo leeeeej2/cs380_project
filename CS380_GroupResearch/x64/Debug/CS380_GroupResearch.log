@@ -1,0 +1,64 @@
+﻿  OneLoneCoder_RacingLines.cpp
+G:\CS380\Project\CS380_GroupResearch\olcConsoleGameEngine.h(759,1): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+G:\CS380\Project\CS380_GroupResearch\olcConsoleGameEngine.h(1099,1): warning C4267: 'return': conversion from 'size_t' to 'unsigned int', possible loss of data
+G:\CS380\Project\CS380_GroupResearch\olcConsoleGameEngine.h(1196,1): warning C4312: 'type cast': conversion from 'DWORD' to 'olcConsoleGameEngine *' of greater size
+G:\CS380\Project\CS380_GroupResearch\OneLoneCoder_RacingLines.cpp(83,1): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+G:\CS380\Project\CS380_GroupResearch\OneLoneCoder_RacingLines.cpp(117,1): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+G:\CS380\Project\CS380_GroupResearch\OneLoneCoder_RacingLines.cpp(139,1): warning C4305: 'initializing': truncation from 'double' to 'float'
+G:\CS380\Project\CS380_GroupResearch\OneLoneCoder_RacingLines.cpp(202,25): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+G:\CS380\Project\CS380_GroupResearch\OneLoneCoder_RacingLines.cpp(202,18): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+G:\CS380\Project\CS380_GroupResearch\OneLoneCoder_RacingLines.cpp(210,25): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+G:\CS380\Project\CS380_GroupResearch\OneLoneCoder_RacingLines.cpp(210,18): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+G:\CS380\Project\CS380_GroupResearch\OneLoneCoder_RacingLines.cpp(306,44): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+G:\CS380\Project\CS380_GroupResearch\OneLoneCoder_RacingLines.cpp(307,44): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+G:\CS380\Project\CS380_GroupResearch\OneLoneCoder_RacingLines.cpp(320,38): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+G:\CS380\Project\CS380_GroupResearch\OneLoneCoder_RacingLines.cpp(321,41): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+G:\CS380\Project\CS380_GroupResearch\OneLoneCoder_RacingLines.cpp(339,55): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+G:\CS380\Project\CS380_GroupResearch\OneLoneCoder_RacingLines.cpp(339,48): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+G:\CS380\Project\CS380_GroupResearch\OneLoneCoder_RacingLines.cpp(339,41): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+G:\CS380\Project\CS380_GroupResearch\OneLoneCoder_RacingLines.cpp(339,34): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+G:\CS380\Project\CS380_GroupResearch\OneLoneCoder_RacingLines.cpp(339,27): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+G:\CS380\Project\CS380_GroupResearch\OneLoneCoder_RacingLines.cpp(339,20): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+G:\CS380\Project\CS380_GroupResearch\OneLoneCoder_RacingLines.cpp(340,55): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+G:\CS380\Project\CS380_GroupResearch\OneLoneCoder_RacingLines.cpp(340,48): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+G:\CS380\Project\CS380_GroupResearch\OneLoneCoder_RacingLines.cpp(340,41): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+G:\CS380\Project\CS380_GroupResearch\OneLoneCoder_RacingLines.cpp(340,34): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+G:\CS380\Project\CS380_GroupResearch\OneLoneCoder_RacingLines.cpp(340,27): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+G:\CS380\Project\CS380_GroupResearch\OneLoneCoder_RacingLines.cpp(340,20): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+G:\CS380\Project\CS380_GroupResearch\OneLoneCoder_RacingLines.cpp(376,41): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+G:\CS380\Project\CS380_GroupResearch\OneLoneCoder_RacingLines.cpp(398,41): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+G:\CS380\Project\CS380_GroupResearch\OneLoneCoder_RacingLines.cpp(415,40): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+G:\CS380\Project\CS380_GroupResearch\OneLoneCoder_RacingLines.cpp(415,31): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+G:\CS380\Project\CS380_GroupResearch\OneLoneCoder_RacingLines.cpp(415,22): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+G:\CS380\Project\CS380_GroupResearch\OneLoneCoder_RacingLines.cpp(415,13): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30037\include\utility(193,16): warning C4244: 'initializing': conversion from '_Ty' to '_Ty1', possible loss of data
+          with
+          [
+              _Ty=int
+          ]
+          and
+          [
+              _Ty1=float
+          ]
+G:\CS380\Project\CS380_GroupResearch\OneLoneCoder_RacingLines.cpp(268): message : see reference to function template instantiation 'std::pair<float,float>::pair<int,int,0>(_Other1 &&,_Other2 &&) noexcept' being compiled
+          with
+          [
+              _Other1=int,
+              _Other2=int
+          ]
+G:\CS380\Project\CS380_GroupResearch\OneLoneCoder_RacingLines.cpp(268): message : see reference to function template instantiation 'std::pair<float,float>::pair<int,int,0>(_Other1 &&,_Other2 &&) noexcept' being compiled
+          with
+          [
+              _Other1=int,
+              _Other2=int
+          ]
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30037\include\utility(193,54): warning C4244: 'initializing': conversion from '_Ty' to '_Ty2', possible loss of data
+          with
+          [
+              _Ty=int
+          ]
+          and
+          [
+              _Ty2=float
+          ]
+  CS380_GroupResearch.vcxproj -> G:\CS380\Project\CS380_GroupResearch\x64\Debug\CS380_GroupResearch.exe
