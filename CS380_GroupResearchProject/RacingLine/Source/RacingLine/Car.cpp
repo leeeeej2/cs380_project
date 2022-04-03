@@ -11,15 +11,20 @@ ACar::ACar()
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
-	/*timeline->SetPlayRate(1 / TimeTocomplete);
-	timeline->SetTimelineLength(1.00f);
-	timeline->SetLooping(1);
-	timeline->PlayFromStart();*/
+	timeline = CreateDefaultSubobject<UTimelineComponent>(TEXT("Timeline"));
+
+	if (timeline)
+	{
+		timeline->SetPlayRate(1 / TimeTocomplete);
+		timeline->SetTimelineLength(1.00f);
+		timeline->SetLooping(1);
+		timeline->PlayFromStart();
+	}
 }
 
 void ACar::MoveObject()
 {
-	//timeline->Play();
+	timeline->Play();
 }
 
 // Called when the game starts or when spawned
