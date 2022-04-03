@@ -21,6 +21,7 @@ public:
 
 	void MoveObject();
 	float TimeTocomplete = 5.f;
+	UPROPERTY(VisibleAnywhere, Category = "Timeline")
 	UTimelineComponent* timeline;
 
 protected:
