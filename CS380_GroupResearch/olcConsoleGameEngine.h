@@ -18,38 +18,38 @@ Character Set -> Use Unicode. Thanks! - Javidx9
 
 enum COLOUR
 {
-	FG_BLACK = 0x0000,
-	FG_DARK_BLUE = 0x0001,
-	FG_DARK_GREEN = 0x0002,
-	FG_DARK_CYAN = 0x0003,
-	FG_DARK_RED = 0x0004,
+	FG_BLACK		= 0x0000,
+	FG_DARK_BLUE    = 0x0001,	
+	FG_DARK_GREEN   = 0x0002,
+	FG_DARK_CYAN    = 0x0003,
+	FG_DARK_RED     = 0x0004,
 	FG_DARK_MAGENTA = 0x0005,
-	FG_DARK_YELLOW = 0x0006,
-	FG_GREY = 0x0007, // Thanks MS :-/
-	FG_DARK_GREY = 0x0008,
-	FG_BLUE = 0x0009,
-	FG_GREEN = 0x000A,
-	FG_CYAN = 0x000B,
-	FG_RED = 0x000C,
-	FG_MAGENTA = 0x000D,
-	FG_YELLOW = 0x000E,
-	FG_WHITE = 0x000F,
-	BG_BLACK = 0x0000,
-	BG_DARK_BLUE = 0x0010,
-	BG_DARK_GREEN = 0x0020,
-	BG_DARK_CYAN = 0x0030,
-	BG_DARK_RED = 0x0040,
+	FG_DARK_YELLOW  = 0x0006,
+	FG_GREY			= 0x0007, // Thanks MS :-/
+	FG_DARK_GREY    = 0x0008,
+	FG_BLUE			= 0x0009,
+	FG_GREEN		= 0x000A,
+	FG_CYAN			= 0x000B,
+	FG_RED			= 0x000C,
+	FG_MAGENTA		= 0x000D,
+	FG_YELLOW		= 0x000E,
+	FG_WHITE		= 0x000F,
+	BG_BLACK		= 0x0000,
+	BG_DARK_BLUE	= 0x0010,
+	BG_DARK_GREEN	= 0x0020,
+	BG_DARK_CYAN	= 0x0030,
+	BG_DARK_RED		= 0x0040,
 	BG_DARK_MAGENTA = 0x0050,
-	BG_DARK_YELLOW = 0x0060,
-	BG_GREY = 0x0070,
-	BG_DARK_GREY = 0x0080,
-	BG_BLUE = 0x0090,
-	BG_GREEN = 0x00A0,
-	BG_CYAN = 0x00B0,
-	BG_RED = 0x00C0,
-	BG_MAGENTA = 0x00D0,
-	BG_YELLOW = 0x00E0,
-	BG_WHITE = 0x00F0,
+	BG_DARK_YELLOW	= 0x0060,
+	BG_GREY			= 0x0070,
+	BG_DARK_GREY	= 0x0080,
+	BG_BLUE			= 0x0090,
+	BG_GREEN		= 0x00A0,
+	BG_CYAN			= 0x00B0,
+	BG_RED			= 0x00C0,
+	BG_MAGENTA		= 0x00D0,
+	BG_YELLOW		= 0x00E0,
+	BG_WHITE		= 0x00F0,
 };
 
 enum PIXEL_TYPE
@@ -133,7 +133,7 @@ public:
 			return Error(L"SetConsoleMode");
 
 		// Allocate memory for screen buffer
-		m_bufScreen = new CHAR_INFO[m_nScreenWidth * m_nScreenHeight];
+		m_bufScreen = new CHAR_INFO[m_nScreenWidth*m_nScreenHeight];
 		memset(m_bufScreen, 0, sizeof(CHAR_INFO) * m_nScreenWidth * m_nScreenHeight);
 
 		SetConsoleCtrlHandler((PHANDLER_ROUTINE)CloseHandler, TRUE);
@@ -179,7 +179,7 @@ public:
 		}
 	}
 
-	void Clip(int& x, int& y)
+	void Clip(int &x, int &y)
 	{
 		if (x < 0) x = 0;
 		if (x >= m_nScreenWidth) x = m_nScreenWidth;
@@ -196,24 +196,20 @@ public:
 		if (dy1 <= dx1)
 		{
 			if (dx >= 0)
-			{
-				x = x1; y = y1; xe = x2;
-			}
+				{ x = x1; y = y1; xe = x2; }
 			else
-			{
-				x = x2; y = y2; xe = x1;
-			}
+				{ x = x2; y = y2; xe = x1;}
 
 			Draw(x, y, c, col);
-
-			for (i = 0; x < xe; i++)
+			
+			for (i = 0; x<xe; i++)
 			{
 				x = x + 1;
-				if (px < 0)
+				if (px<0)
 					px = px + 2 * dy1;
 				else
 				{
-					if ((dx < 0 && dy < 0) || (dx > 0 && dy > 0)) y = y + 1; else y = y - 1;
+					if ((dx<0 && dy<0) || (dx>0 && dy>0)) y = y + 1; else y = y - 1;
 					px = px + 2 * (dy1 - dx1);
 				}
 				Draw(x, y, c, col);
@@ -222,24 +218,20 @@ public:
 		else
 		{
 			if (dy >= 0)
-			{
-				x = x1; y = y1; ye = y2;
-			}
+				{ x = x1; y = y1; ye = y2; }
 			else
-			{
-				x = x2; y = y2; ye = y1;
-			}
+				{ x = x2; y = y2; ye = y1; }
 
 			Draw(x, y, c, col);
 
-			for (i = 0; y < ye; i++)
+			for (i = 0; y<ye; i++)
 			{
 				y = y + 1;
 				if (py <= 0)
 					py = py + 2 * dx1;
 				else
 				{
-					if ((dx < 0 && dy < 0) || (dx > 0 && dy > 0)) x = x + 1; else x = x - 1;
+					if ((dx<0 && dy<0) || (dx>0 && dy>0)) x = x + 1; else x = x - 1;
 					py = py + 2 * (dx1 - dy1);
 				}
 				Draw(x, y, c, col);
@@ -249,25 +241,25 @@ public:
 
 	void FillTriangle(int x1, int y1, int x2, int y2, int x3, int y3, short c = 0x2588, short col = 0x000F)
 	{
-		auto SWAP = [](int& x, int& y) { int t = x; x = y; y = t; };
+		auto SWAP = [](int &x, int &y) { int t = x; x = y; y = t; };
 		auto drawline = [&](int sx, int ex, int ny) { for (int i = sx; i <= ex; i++) Draw(i, ny, c, col); };
-
+		
 		int t1x, t2x, y, minx, maxx, t1xp, t2xp;
 		bool changed1 = false;
 		bool changed2 = false;
 		int signx1, signx2, dx1, dy1, dx2, dy2;
 		int e1, e2;
 		// Sort vertices
-		if (y1 > y2) { SWAP(y1, y2); SWAP(x1, x2); }
-		if (y1 > y3) { SWAP(y1, y3); SWAP(x1, x3); }
-		if (y2 > y3) { SWAP(y2, y3); SWAP(x2, x3); }
+		if (y1>y2) { SWAP(y1, y2); SWAP(x1, x2); }
+		if (y1>y3) { SWAP(y1, y3); SWAP(x1, x3); }
+		if (y2>y3) { SWAP(y2, y3); SWAP(x2, x3); }
 
 		t1x = t2x = x1; y = y1;   // Starting points
-		dx1 = (int)(x2 - x1); if (dx1 < 0) { dx1 = -dx1; signx1 = -1; }
+		dx1 = (int)(x2 - x1); if (dx1<0) { dx1 = -dx1; signx1 = -1; }
 		else signx1 = 1;
 		dy1 = (int)(y2 - y1);
 
-		dx2 = (int)(x3 - x1); if (dx2 < 0) { dx2 = -dx2; signx2 = -1; }
+		dx2 = (int)(x3 - x1); if (dx2<0) { dx2 = -dx2; signx2 = -1; }
 		else signx2 = 1;
 		dy2 = (int)(y3 - y1);
 
@@ -287,10 +279,10 @@ public:
 
 		for (int i = 0; i < dx1;) {
 			t1xp = 0; t2xp = 0;
-			if (t1x < t2x) { minx = t1x; maxx = t2x; }
+			if (t1x<t2x) { minx = t1x; maxx = t2x; }
 			else { minx = t2x; maxx = t1x; }
 			// process first line until y value is about to change
-			while (i < dx1) {
+			while (i<dx1) {
 				i++;
 				e1 += dy1;
 				while (e1 >= dx1) {
@@ -315,8 +307,8 @@ public:
 				else              t2x += signx2;
 			}
 		next2:
-			if (minx > t1x) minx = t1x; if (minx > t2x) minx = t2x;
-			if (maxx < t1x) maxx = t1x; if (maxx < t2x) maxx = t2x;
+			if (minx>t1x) minx = t1x; if (minx>t2x) minx = t2x;
+			if (maxx<t1x) maxx = t1x; if (maxx<t2x) maxx = t2x;
 			drawline(minx, maxx, y);    // Draw line from min to max points found on the y
 										 // Now increase y
 			if (!changed1) t1x += signx1;
@@ -329,7 +321,7 @@ public:
 		}
 	next:
 		// Second half
-		dx1 = (int)(x3 - x2); if (dx1 < 0) { dx1 = -dx1; signx1 = -1; }
+		dx1 = (int)(x3 - x2); if (dx1<0) { dx1 = -dx1; signx1 = -1; }
 		else signx1 = 1;
 		dy1 = (int)(y3 - y2);
 		t1x = x2;
@@ -344,10 +336,10 @@ public:
 
 		for (int i = 0; i <= dx1; i++) {
 			t1xp = 0; t2xp = 0;
-			if (t1x < t2x) { minx = t1x; maxx = t2x; }
+			if (t1x<t2x) { minx = t1x; maxx = t2x; }
 			else { minx = t2x; maxx = t1x; }
 			// process first line until y value is about to change
-			while (i < dx1) {
+			while (i<dx1) {
 				e1 += dy1;
 				while (e1 >= dx1) {
 					e1 -= dx1;
@@ -356,7 +348,7 @@ public:
 				}
 				if (changed1) break;
 				else   	   	  t1x += signx1;
-				if (i < dx1) i++;
+				if (i<dx1) i++;
 			}
 		next3:
 			// process second line until y value is about to change
@@ -372,19 +364,19 @@ public:
 			}
 		next4:
 
-			if (minx > t1x) minx = t1x; if (minx > t2x) minx = t2x;
-			if (maxx < t1x) maxx = t1x; if (maxx < t2x) maxx = t2x;
-			drawline(minx, maxx, y);
+			if (minx>t1x) minx = t1x; if (minx>t2x) minx = t2x;
+			if (maxx<t1x) maxx = t1x; if (maxx<t2x) maxx = t2x;
+			drawline(minx, maxx, y);   										
 			if (!changed1) t1x += signx1;
 			t1x += t1xp;
 			if (!changed2) t2x += signx2;
 			t2x += t2xp;
 			y += 1;
-			if (y > y3) return;
+			if (y>y3) return;
 		}
 	}
 
-	void DrawWireFrameModel(const std::vector<std::pair<float, float>>& vecModelCoordinates, float x, float y, float r = 0.0f, float s = 1.0f, short col = FG_WHITE, short c = PIXEL_SOLID)
+	void DrawWireFrameModel(const std::vector<std::pair<float, float>> &vecModelCoordinates, float x, float y, float r = 0.0f, float s = 1.0f, short col = FG_WHITE, short c = PIXEL_SOLID)
 	{
 		std::vector<std::pair<float, float>> vecTransformedCoordinates;
 		int verts = vecModelCoordinates.size();
@@ -428,7 +420,7 @@ public:
 
 public:
 	void Start()
-	{
+	{	
 		m_bAtomActive = true;
 		std::thread t = std::thread(&olcConsoleGameEngine::GameThread, this);
 		t.join();
@@ -439,7 +431,7 @@ public:
 		return m_nScreenWidth;
 	}
 
-	int ScreenHeight()
+	int ScreenHeight() 
 	{
 		return m_nScreenHeight;
 	}
@@ -447,7 +439,7 @@ public:
 private:
 	void GameThread()
 	{
-		if (!OnUserCreate())
+		if (!OnUserCreate()) 
 			m_bAtomActive = false;
 
 		auto tp1 = std::chrono::system_clock::now();
@@ -463,6 +455,30 @@ private:
 				std::chrono::duration<float> elapsedTime = tp2 - tp1;
 				tp1 = tp2;
 				float fElapsedTime = elapsedTime.count();
+
+				for (int i = 0; i < 256; i++)
+				{
+					m_keyNewState[i] = GetAsyncKeyState(i);
+
+					m_keys[i].bPressed = false;
+					m_keys[i].bReleased = false;
+
+					if (m_keyNewState[i] != m_keyOldState[i])
+					{
+						if (m_keyNewState[i] & 0x8000)
+						{
+							m_keys[i].bPressed = !m_keys[i].bHeld;
+							m_keys[i].bHeld = true;
+						}
+						else
+						{
+							m_keys[i].bReleased = true;
+							m_keys[i].bHeld = false;
+						}
+					}
+
+					m_keyOldState[i] = m_keyNewState[i];
+				}
 
 				// Handle Mouse Input - Check for window events
 				INPUT_RECORD inBuf[32];
@@ -571,11 +587,11 @@ private:
 
 public:
 	// User MUST OVERRIDE THESE!!
-	virtual bool OnUserCreate() = 0;
-	virtual bool OnUserUpdate(float fElapsedTime) = 0;
+	virtual bool OnUserCreate()							= 0;
+	virtual bool OnUserUpdate(float fElapsedTime)		= 0;	
 
 	// Optional for clean up 
-	virtual bool OnUserDestroy() { return true; }
+	virtual bool OnUserDestroy()						{ return true; }
 
 protected:
 	struct sKeyState
@@ -596,7 +612,7 @@ public:
 
 
 protected:
-	int Error(const wchar_t* msg)
+	int Error(const wchar_t *msg)
 	{
 		wchar_t buf[256];
 		FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM, NULL, GetLastError(), MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), buf, 256, NULL);
@@ -621,7 +637,7 @@ protected:
 protected:
 	int m_nScreenWidth;
 	int m_nScreenHeight;
-	CHAR_INFO* m_bufScreen;
+	CHAR_INFO *m_bufScreen;
 	std::wstring m_sAppName;
 	HANDLE m_hOriginalConsole;
 	CONSOLE_SCREEN_BUFFER_INFO m_OriginalConsoleInfo;
@@ -632,7 +648,7 @@ protected:
 	short m_keyNewState[256] = { 0 };
 	bool m_mouseOldState[5] = { 0 };
 	bool m_mouseNewState[5] = { 0 };
-	bool m_bConsoleInFocus = true;
+	bool m_bConsoleInFocus = true;	
 	bool m_bEnableSound = false;
 
 	static std::atomic<bool> m_bAtomActive;
