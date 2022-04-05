@@ -85,6 +85,7 @@ private:
     GLuint vboCube[3];
     GLuint vboBunny[3];
     GLuint vboCreateSphere[3];
+    GLuint vboCar[3];
 
     GLuint vboSphereLine[1];
     GLuint vboSphereModifiedLine[1];
@@ -92,6 +93,7 @@ private:
     GLuint vboCubeLine[1];
     GLuint vboBunnyLine[1];
     GLuint vboCreateSphereLine[1];
+    GLuint vboCarLine[1];
     GLuint vboOrbitLine[1];
 
     GLuint vboSphereFace[2];
@@ -100,6 +102,7 @@ private:
     GLuint vboCubeFace[2];
     GLuint vboBunnyFace[2];
     GLuint vboCreateSphereFace[2];
+    GLuint vboCarFace[2];
 
     GLuint vboSphereFaceNormal[1];
     GLuint vboSphereModifiedFaceNormal[1];
@@ -107,6 +110,7 @@ private:
     GLuint vboCubeFaceNormal[1];
     GLuint vboBunnyFaceNormal[1];
     GLuint vboCreateSphereFaceNormal[1];
+    GLuint vboCarFaceNormal[1];
     
     Mesh sphere;
     Mesh sphereModified;
@@ -114,6 +118,7 @@ private:
     Mesh cube;
     Mesh bunny;
     Mesh createSphere;
+    Mesh car;
 
     std::vector<glm::vec3> orbitVertex;
    

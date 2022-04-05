@@ -98,6 +98,11 @@ int CS300_Project_Scene::Render()
 
     objectManager.SetLightPosition(lightPosition);
 
+    scaleVector = glm::vec3(0.3f,0.3f,0.7f);
+    angleOfRotation = PI / 2;
+    objectManager.SetTransforms(ObjectTypeEnum::eCAR, translate, scaleVector, angleOfRotation, rotateVector);
+    objectManager.DrawObject(ObjectTypeEnum::eCAR, projection, camera, YELLOW);
+
     scaleVector = glm::vec3(1.f);
     translate = glm::vec3(distance, 0.f, 0.f);
     splinePath.DrawSplinePath(&objectManager, projection, camera, BLUE);

@@ -182,6 +182,7 @@ void VBOManager::SetVertexBuffer()
     vertexBuffer.push_back(vboCube);
     vertexBuffer.push_back(vboBunny);
     vertexBuffer.push_back(vboCreateSphere);
+    vertexBuffer.push_back(vboCar);
 
     lineBuffer.push_back(vboSphereLine);
     lineBuffer.push_back(vboSphereModifiedLine);
@@ -190,6 +191,7 @@ void VBOManager::SetVertexBuffer()
     lineBuffer.push_back(vboBunnyLine);
     lineBuffer.push_back(vboOrbitLine);
     lineBuffer.push_back(vboCreateSphereLine);
+    lineBuffer.push_back(vboCarLine);
 
     faceVertexBuffer.push_back(vboSphereFace);
     faceVertexBuffer.push_back(vboSphereModifiedFace);
@@ -197,6 +199,7 @@ void VBOManager::SetVertexBuffer()
     faceVertexBuffer.push_back(vboCubeFace);
     faceVertexBuffer.push_back(vboBunnyFace);
     faceVertexBuffer.push_back(vboCreateSphereFace);
+    faceVertexBuffer.push_back(vboCarFace);
 
     faceNormalBuffer.push_back(vboSphereFaceNormal);
     faceNormalBuffer.push_back(vboSphereModifiedFaceNormal);
@@ -204,6 +207,7 @@ void VBOManager::SetVertexBuffer()
     faceNormalBuffer.push_back(vboCubeFaceNormal);
     faceNormalBuffer.push_back(vboBunnyFaceNormal);
     faceNormalBuffer.push_back(vboCreateSphereFaceNormal);
+    faceNormalBuffer.push_back(vboCarFaceNormal);
 
 }
 
@@ -214,6 +218,7 @@ void VBOManager::LoadOBJFile()
     objReader.ReadOBJFile("../Common/models/4Sphere.obj", &sphere_4);
     objReader.ReadOBJFile("../Common/models/cube.obj", &cube, OBJReader::ReadMethod::LINE_BY_LINE, true);
     objReader.ReadOBJFile("../Common/models/bunny.obj", &bunny);
+    objReader.ReadOBJFile("../Common/models/car1.obj", &car);
     createSphere.CreateSphere(0.1f, 30);
 
     CalculateOrbit(10.f / PI);
@@ -367,6 +372,9 @@ Mesh* VBOManager::FindMesh(ObjectTypeEnum type)
     case ObjectTypeEnum::eCREATE_SPHERE:
         mesh = &createSphere;
         break;
+    case ObjectTypeEnum::eCAR:
+        mesh = &car;
+        break;
     default:
         break;
     }
@@ -397,6 +405,9 @@ Mesh* VBOManager::FindMesh(LineTypeEnum type)
         break;
     case LineTypeEnum::eCREATE_SPHERE:
         mesh = &createSphere;
+        break;
+    case LineTypeEnum::eCAR:
+        mesh = &car;
         break;
     default:
         break;

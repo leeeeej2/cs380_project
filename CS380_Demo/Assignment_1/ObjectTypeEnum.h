@@ -20,6 +20,7 @@ enum class ObjectTypeEnum
     eCUBE,
     eBUNNY,
     eCREATE_SPHERE,
+    eCAR,
     COUNT
 };
 
@@ -31,6 +32,7 @@ enum class LineTypeEnum
     eCUBE,
     eBUNNY,
     eCREATE_SPHERE,
+    eCAR,
     eORBIT,
     COUNT
 };
