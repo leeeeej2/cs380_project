@@ -24,6 +24,8 @@ public:
     void MoveCurrentPoints(bool to_front, bool way);// go front or left, go back or right
 
     glm::vec3 GetSplinePoint(float t);
+    glm::vec3 GetSplineGradient(float t);
+
     void CalculationSplinePoint();
     void UpdateBuffers();
 

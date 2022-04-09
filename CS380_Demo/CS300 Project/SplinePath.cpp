@@ -187,6 +187,40 @@ glm::vec3 SplinePath::GetSplinePoint(float t)
     return { tx, 0, tz };
 }
 
+glm::vec3 SplinePath::GetSplineGradient(float t)
+{
+    int p0, p1, p2, p3;
+    int size = points.size();
+
+    p1 = ((int)t) % size;
+    p2 = (p1 + 1) % size;
+    p3 = (p1 + 2) % size;
+
+    if (p1 >= 1)
+    {
+        p0 = p1 - 1;
+    }
+    else
+    {
+        p0 = size - 1;
+    }
+
+    t = t - (int)t;
+
+    float tt = t * t;
+    float ttt = tt * t;
+
+    float q1 = -3.0f * tt + 4.0f * t - 1.0f; 			// -3t^2 + 4t - 1
+    float q2 = 9.0f * tt - 10.0f * t;				// 9t^2 - 10t 
+    float q3 = -9.0f * tt + 8.0f * t + 1.0f;		// -9t^2 + 8t + 1
+    float q4 = 3.0f * tt - 2.0f * t;				// 3t^2 - 2t
+
+    float tx = 0.5f * (points[p0].x * q1 + points[p1].x * q2 + points[p2].x * q3 + points[p3].x * q4);
+    float tz = 0.5f * (points[p0].z * q1 + points[p1].z * q2 + points[p2].z * q3 + points[p3].z * q4);
+
+    return { tx, 0, tz };
+}
+
 void SplinePath::CalculationSplinePoint()
 {
     spline_pts.clear();
