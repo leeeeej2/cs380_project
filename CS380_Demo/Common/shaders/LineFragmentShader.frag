@@ -1,7 +1,5 @@
 #version 410 core
 
-in vec3 fragPosition;
-
 uniform vec3 color;
 out vec4 fragColor;
 

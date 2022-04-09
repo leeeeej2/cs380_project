@@ -14,7 +14,7 @@ SplinePath::SplinePath()
 
     glGenVertexArrays(1, &vao);
     glGenBuffers(1, &vbo);
-    
+
     glBindVertexArray(vao);
     glBindBuffer(GL_ARRAY_BUFFER, vbo);
     glBufferData(GL_ARRAY_BUFFER, sizeof(glm::vec3) * spline_pts.size(), &spline_pts[0].x, GL_DYNAMIC_DRAW);
@@ -37,7 +37,7 @@ void SplinePath::DrawSplinePoints(ObjectManager* m, glm::mat4 proj, glm::mat4 ca
         m->SetTransforms(ObjectTypeEnum::eCREATE_SPHERE, points[i], scale, 0, scale);
         if (current_pts == i)
         {
-            m->DrawObject(ObjectTypeEnum::eCREATE_SPHERE, proj, cam, {1,0,0});
+            m->DrawObject(ObjectTypeEnum::eCREATE_SPHERE, proj, cam, { 1,0,0 });
         }
         else
         {
@@ -94,7 +94,7 @@ void SplinePath::NextSplinePoints(bool to_left)
 
 void SplinePath::AddSplinePoint()
 {
-    points.push_back({0,0,0});
+    points.push_back({ 0,0,0 });
     CalculationSplinePoint();
     UpdateBuffers();
 }
@@ -102,6 +102,7 @@ void SplinePath::AddSplinePoint()
 void SplinePath::DeleteCurrentSplinePoint()
 {
     std::vector<glm::vec3>::iterator it = points.begin() + current_pts;
+    --current_pts;
     points.erase(it);
     CalculationSplinePoint();
     UpdateBuffers();
@@ -144,10 +145,20 @@ void SplinePath::MoveCurrentPoints(bool to_front, bool way)
 glm::vec3 SplinePath::GetSplinePoint(float t)
 {
     int p0, p1, p2, p3;
-    p1 = (int)t + 1;
-    p2 = p1 + 1;
-    p3 = p1 + 2;
-    p0 = p1 - 1;
+    int size = points.size();
+
+    p1 = ((int)t) % size;
+    p2 = (p1 + 1) % size;
+    p3 = (p1 + 2) % size;
+
+    if (p1 >= 1)
+    {
+        p0 = p1 - 1;
+    }
+    else
+    {
+        p0 = size - 1;
+    }
 
     t = t - (int)t;
 
@@ -160,25 +171,33 @@ glm::vec3 SplinePath::GetSplinePoint(float t)
     float q4 = ttt - tt;
 
     float tx = 0.5f * (points[p0].x * q1 + points[p1].x * q2 + points[p2].x * q3 + points[p3].x * q4);
-    float ty = 0.5f * (points[p0].y * q1 + points[p1].y * q2 + points[p2].y * q3 + points[p3].y * q4);
+    float tz = 0.5f * (points[p0].z * q1 + points[p1].z * q2 + points[p2].z * q3 + points[p3].z * q4);
 
-    return {tx, 0, ty};
+    return { tx, 0, tz };
 }
 
 void SplinePath::CalculationSplinePoint()
 {
     spline_pts.clear();
+    float size = (float)points.size();
     float step = points.size() * 5;
     float alpha = 1 / step;
 
     glm::vec3 pos;
+    glm::vec3 previous_pos;
 
-    for (float t = 0; t < 1; t += 0.05f)
+    previous_pos = GetSplinePoint(0);
+
+    for (float t = 0.05f; t < size; t += 0.05f)
     {
+        spline_pts.push_back(previous_pos);
+
         pos = GetSplinePoint(t);
+        previous_pos = pos;
+
         spline_pts.push_back(pos);
     }
-    
+
 }
 
 void SplinePath::UpdateBuffers()

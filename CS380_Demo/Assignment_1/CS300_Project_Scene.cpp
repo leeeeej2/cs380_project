@@ -109,6 +109,8 @@ int CS300_Project_Scene::Render()
     splinePath.DrawSplinePoints(&objectManager, projection, camera, BLUE);
     
     glUseProgram(line_shader);
+    translate = glm::vec3(0, 0, 0);
+    angleOfRotation = 0.f;
     modelMat = glm::translate(translate) * glm::rotate(angleOfRotation, rotateVector) * glm::scale(scaleVector);
     splinePath.DrawSplinePath(&line_shader, modelMat, projection, camera, RED);
 
