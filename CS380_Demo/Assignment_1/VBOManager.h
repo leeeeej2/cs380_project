@@ -95,6 +95,7 @@ private:
     GLuint vboCreateSphereLine[1];
     GLuint vboCarLine[1];
     GLuint vboOrbitLine[1];
+    GLuint vboLine[1];
 
     GLuint vboSphereFace[2];
     GLuint vboSphereModifiedFace[2];
@@ -119,6 +120,7 @@ private:
     Mesh bunny;
     Mesh createSphere;
     Mesh car;
+    Mesh line;
 
     std::vector<glm::vec3> orbitVertex;
    

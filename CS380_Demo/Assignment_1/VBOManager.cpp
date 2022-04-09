@@ -125,6 +125,11 @@ void VBOManager::DrawLine(LineTypeEnum type)
         glDrawArrays(GL_LINES, 0, (GLsizei)orbitVertex.size());
         return;
     }
+    else if(type == LineTypeEnum::eLINE)
+    {
+        //glDrawArrays(GL_LINES, 0, 2);
+        return;
+    }
 
     Mesh* mesh = FindMesh(type);
     glDrawArrays(GL_LINES, 0, mesh->getVertexNormalCount());
@@ -190,6 +195,7 @@ void VBOManager::SetVertexBuffer()
     lineBuffer.push_back(vboCubeLine);
     lineBuffer.push_back(vboBunnyLine);
     lineBuffer.push_back(vboOrbitLine);
+    lineBuffer.push_back(vboLine);
     lineBuffer.push_back(vboCreateSphereLine);
     lineBuffer.push_back(vboCarLine);
 
@@ -289,6 +295,10 @@ void VBOManager::SetLineBuffers(GLuint* buffer, int type)
         glBufferData(GL_ARRAY_BUFFER, orbitVertex.size() * sizeof(glm::vec3), orbitVertex.data(), GL_STATIC_DRAW);
         glVertexAttribPointer(vertex, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
         glEnableVertexAttribArray(vertex);
+        return;
+    }
+    if (objectType == LineTypeEnum::eLINE)
+    {
         return;
     }
     Mesh* mesh = FindMesh(objectType);

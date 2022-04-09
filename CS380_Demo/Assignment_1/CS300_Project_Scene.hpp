@@ -52,6 +52,7 @@ private:
 
 
     GLuint programID = 0 ;
+    GLuint line_shader = 0;
 
     ImGuiManager* imGui = nullptr;
 

@@ -31,7 +31,7 @@ CS300_Project_Scene::CS300_Project_Scene(int windowWidth, int windowHeight) : Sc
     this->windowWidth = windowWidth;
     this->windowHeight = windowHeight;
 
-    glm::vec3 eye(0.f,2.f,8.0f);
+    glm::vec3 eye(0.f, 8.f,12.0f);
     glm::vec3 target(0.f, 0.f, -1.f);
     glm::vec3 up(0.f, 1.f, 0.f);
     float fov = 0.5f * PI;
@@ -54,7 +54,8 @@ int CS300_Project_Scene::Init()
 {
     programID = LoadShaders("../Common/shaders/VertexShader.vert",
                             "../Common/shaders/FragmentShader.frag");
-
+    line_shader = LoadShaders("../Common/shaders/LineVertexShader.vert",
+                               "../Common/shaders/LineFragmentShader.frag");
     SetupBuffers();
     return Scene::Init();
 }
@@ -86,7 +87,7 @@ int CS300_Project_Scene::Render()
     glUseProgram(programID);
     glm::mat4 orbitMat = glm::mat4(0.50f);
     objectManager.SetUniforms(projection, camera, orbitMat);
-    objectManager.DrawOrbit();
+    //objectManager.DrawOrbit();
     
     glm::mat4 modelMat = glm::mat4(1.0f);
     float distance = 10.f / PI;
@@ -105,8 +106,11 @@ int CS300_Project_Scene::Render()
 
     scaleVector = glm::vec3(1.f);
     translate = glm::vec3(distance, 0.f, 0.f);
-    splinePath.DrawSplinePath(&objectManager, projection, camera, BLUE);
-
+    splinePath.DrawSplinePoints(&objectManager, projection, camera, BLUE);
+    
+    glUseProgram(line_shader);
+    modelMat = glm::translate(translate) * glm::rotate(angleOfRotation, rotateVector) * glm::scale(scaleVector);
+    splinePath.DrawSplinePath(&line_shader, modelMat, projection, camera, RED);
 
     glEnable(GL_DEPTH_TEST);
     glUseProgram(0);

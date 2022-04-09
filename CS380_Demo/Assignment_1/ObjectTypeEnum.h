@@ -34,5 +34,6 @@ enum class LineTypeEnum
     eCREATE_SPHERE,
     eCAR,
     eORBIT,
+    eLINE,
     COUNT
 };
