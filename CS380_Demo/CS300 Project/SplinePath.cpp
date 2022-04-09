@@ -4,10 +4,21 @@ SplinePath::SplinePath()
 {
     scale = glm::vec3(1.f);
     float distance = 10.f / PI;
-    points.push_back({ distance, 0, 0 });
+    glm::vec3 rotate_vector = glm::vec3(0, 1, 0);
+    float rotation = 0.f;
+    glm::vec3 translate_vector = glm::vec3(distance, 0, 0);
+    glm::vec4 transform;
+
+    for (rotation = 0.f; rotation < 2 * PI; rotation += PI / 5)
+    {
+        transform = glm::rotate(rotation, rotate_vector)* glm::vec4(translate_vector,1.f);
+        points.push_back({ transform.x, transform.y, transform.z });
+    }
+    
+    /*points.push_back({ distance, 0, 0 });
     points.push_back({ 0,0,-distance });
     points.push_back({ -distance,0,0 });
-    points.push_back({ 0,0,distance });
+    points.push_back({ 0,0,distance });*/
     current_pts = 0;
 
     CalculationSplinePoint();
