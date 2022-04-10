@@ -60,6 +60,7 @@ private:
 
     Camera cam;
     glm::mat4 camera;
+
     glm::mat4 projection;
     
     ObjectManager objectManager;
@@ -75,4 +76,14 @@ private:
     glm::mat4 sphereModified = glm::mat4(1.0f);
     glm::mat4 sphere = glm::mat4(1.0f);
     glm::mat4 cube = glm::mat4(1.0f);
+
+    glm::vec3 eye;
+    glm::vec3 target;
+    glm::vec3 up;
+    glm::vec3 eye_2d;
+    glm::vec3 up_2d;
+    float fov;
+    float aspect;
+    float near_;
+    float far_;
 };

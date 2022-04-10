@@ -15,6 +15,7 @@ End Header --------------------------------------------------------*/
 
 ImGuiManager::ImGuiManager()
 {
+    camera_position = true;
 }
 
 ImGuiManager::ImGuiManager(GLFWwindow* window)
@@ -49,7 +50,7 @@ void ImGuiManager::ImGuiRender(ObjectManager* objManager, SplinePath* s, SplineP
     static int drawType = 0;
 
     ShowPointsInformationWindow(s, s2, s3);
-    
+    ShowCameraWindow();
 
     //ImGui::End();
     ImGui::Render();
@@ -97,4 +98,40 @@ void ImGuiManager::ShowPointsInformationWindow(SplinePath* s, SplinePath* s2, Sp
     }
     ImGui::PopButtonRepeat();
 
+}
+
+void ImGuiManager::ShowCameraWindow()
+{
+    if (!ImGui::CollapsingHeader("Camera"))
+    {
+        return;
+    }
+    if (ImGui::Button("Change Camera Position"))
+    {
+        if (camera_position == true)
+        {
+            camera_position = false;
+        }
+        else
+        {
+            camera_position = true;
+        }
+        change_camera_button = true;
+    }
+}
+
+bool ImGuiManager::GetCameraChangeButton()
+{
+    if (change_camera_button == true)
+    {
+        change_camera_button = false;
+        return true;
+    }
+
+    return false;
+}
+
+bool ImGuiManager::GetCameraPosition()
+{
+    return camera_position;
 }

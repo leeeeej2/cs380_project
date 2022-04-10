@@ -20,10 +20,6 @@ SplinePath::SplinePath()
 		optimizedPoints.push_back(points[i]);
 		displacement.push_back(0.f);
 	}
-	/*points.push_back({ distance, 0, 0 });
-	points.push_back({ 0,0,-distance });
-	points.push_back({ -distance,0,0 });
-	points.push_back({ 0,0,distance });*/
 	current_pts = 0;
 
 	CalculationSplinePoint();

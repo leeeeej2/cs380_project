@@ -31,15 +31,17 @@ CS300_Project_Scene::CS300_Project_Scene(int windowWidth, int windowHeight) : Sc
     this->windowWidth = windowWidth;
     this->windowHeight = windowHeight;
 
-    glm::vec3 eye(0.f, 8.f,12.0f);
-    glm::vec3 target(0.f, 0.f, -1.f);
-    glm::vec3 up(0.f, 1.f, 0.f);
-    float fov = 0.5f * PI;
-    float aspect = static_cast<float>(windowWidth) / static_cast<float>(windowHeight);
-    float near = 0.1f;
-    float far = 10.f;
+    eye = glm::vec3(0.f, 8.f,12.0f);
+    eye_2d = glm::vec3(0.f, 12.f, -1.f);
+    target = glm::vec3(0.f, 0.f, 0.f);
+    up = glm::vec3(0.f, 1.f, 0.f);
+    up_2d = glm::vec3(0.f, 0.f, -1.f);
+    fov = 0.5f * PI;
+    aspect = static_cast<float>(windowWidth) / static_cast<float>(windowHeight);
+    near_ = 0.1f;
+    far_ = 10.f;
 
-    cam.CameraSetUP(eye, target, up, fov, aspect, near, far);
+    cam.CameraSetUP(eye, target, up, fov, aspect, near_, far_);
     camera = CameraToWorld(cam);
     projection = glm::perspective(glm::radians(45.f), aspect, 0.1f, 100.f);
 }
@@ -127,6 +129,19 @@ int CS300_Project_Scene::Render()
     imGui->ImGuiRender(&objectManager, &splinePath, &trackLeft, &trackRight);
     //imGui->ImGuiRender(&objectManager, &trackLeft);
     //imGui->ImGuiRender(&objectManager, &trackRight);
+    if (imGui->GetCameraChangeButton() == true)
+    {
+        if (imGui->GetCameraPosition() == true)
+        {
+            cam.CameraSetUP(eye, target, up, fov, aspect, near_, far_);
+            camera = CameraToWorld(cam);
+        }
+        else
+        {
+            cam.CameraSetUP(eye_2d, target, up_2d, fov, aspect, near_, far_);
+            camera = CameraToWorld(cam);
+        }
+    }
 
     return 0;
 }

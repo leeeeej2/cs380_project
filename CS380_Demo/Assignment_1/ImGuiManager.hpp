@@ -31,8 +31,12 @@ public:
     void ImGuiRender(ObjectManager* objManager, SplinePath* s, SplinePath* s2, SplinePath* s3);
 
     void ShowPointsInformationWindow(SplinePath* s, SplinePath* s2, SplinePath* s3);
+    void ShowCameraWindow();
 
+    bool GetCameraChangeButton();
+    bool GetCameraPosition();
 
 private:
-
+    bool camera_position;
+    bool change_camera_button = false;
 };
