@@ -12,12 +12,10 @@ public:
     ~SplinePath();
 
     void DrawSplinePoints(ObjectManager* m, glm::mat4 proj, glm::mat4 cam, glm::vec3 c);
-    void DrawSplinePath(GLuint* shader, glm::mat4 transform, glm::mat4 proj, glm::mat4 cam, glm::vec3 color, bool IsOptimized = false);
+    void DrawSplinePath(GLuint* shader, glm::mat4 transform, glm::mat4 proj, glm::mat4 cam, glm::vec3 color);
     void DrawTrackPath(GLuint* shader, glm::mat4 transform, glm::mat4 proj, glm::mat4 cam, glm::vec3 color);
     void DrawTrackPath2(GLuint* shader, glm::mat4 transform, glm::mat4 proj, glm::mat4 cam, glm::vec3 color);
-
-    void OptimizationPath();
-
+    void DrawOptimizedSplinePoints(GLuint* shader, glm::mat4 transform, glm::mat4 proj, glm::mat4 cam, glm::vec3 color);
 
     void NextSplinePoints(bool to_left);
 
@@ -33,9 +31,12 @@ public:
 
     void CalculationSplinePoint();
     void CalculationTrackPoint();
-    void UpdateBuffers(bool IsOptimized = false);
+    void CalculationOptimizationPath();
+
+    void UpdateBuffers();
     void UpdateBuffersTrack();
     void UpdateBuffersTrack2();
+    void UpdateOptimizedBuffers();
 
 private:
     std::vector<glm::vec3> points;
