@@ -175,7 +175,7 @@ void SplinePath::CalculationOptimizationPath()
 			}
 
 			glm::vec3 gradient = GetSplineGradient(j, true);
-			float gradientLength = glm::dot(gradient, gradient);
+			float gradientLength = sqrtf(gradient.x * gradient.x + gradient.z * gradient.z);
 			gradient = gradient / gradientLength;
 			glm::vec3 gradientNormal = glm::vec3(-gradient.z, 0, gradient.x);
 
