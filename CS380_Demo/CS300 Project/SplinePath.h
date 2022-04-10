@@ -38,6 +38,8 @@ public:
     void UpdateBuffersTrack2();
     void UpdateOptimizedBuffers();
 
+    int iterationNum = 0;
+    void IncreaseIteration();
 private:
     std::vector<glm::vec3> points;
     std::vector<glm::vec3> spline_pts;

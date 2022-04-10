@@ -132,7 +132,7 @@ void SplinePath::CalculationOptimizationPath()
 		displacement[i] = 0.f;
 	}
 
-	for (int i = 0; i < 43; i++)
+	for (int i = 0; i < iterationNum; i++)
 	{
 		for (int j = 0; j < optimizedPoints.size(); j++)
 		{
@@ -554,4 +554,11 @@ void SplinePath::UpdateOptimizedBuffers()
 {
 	glBindBuffer(GL_ARRAY_BUFFER, optimizedVbo);
 	glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(glm::vec3) * optimizedSpline.size(), &optimizedSpline[0]);
+}
+
+void SplinePath::IncreaseIteration()
+{
+	iterationNum++;
+	CalculationOptimizationPath();
+	UpdateOptimizedBuffers();
 }

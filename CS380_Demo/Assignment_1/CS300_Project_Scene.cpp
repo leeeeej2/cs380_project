@@ -163,6 +163,12 @@ void CS300_Project_Scene::KeyboardInput(GLFWwindow* window)
         trackLeft.MoveCurrentPoints(false, true);
         trackRight.MoveCurrentPoints(false, true);
     }
+
+    if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS)
+    {
+        splinePath.IncreaseIteration();
+    }
+
 }
 
 void CS300_Project_Scene::InitMembers()
