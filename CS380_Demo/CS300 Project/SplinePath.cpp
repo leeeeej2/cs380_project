@@ -464,34 +464,38 @@ void SplinePath::CalculationTrackPoint()
 
     glm::vec3 pos;
     glm::vec3 previous_pos;
+    glm::vec3 previous_pos2;
     glm::vec3 gPos;
     glm::vec3 previous_gPos;
 
     float trackWidth = 0.5f;
 
     previous_pos = GetSplinePoint(0);
+    previous_pos2 = GetSplinePoint(0);
     previous_gPos = GetSplineGradient(0);
 
     float gLen;
 
-    for (float t = 0.05f; t < size; t += 0.05f)
+    for (float t = 0.f; t < size; t += 0.05f)
     {
         tracks.push_back(previous_pos);
-        tracks2.push_back(previous_pos);
+        tracks2.push_back(previous_pos2);
 
         pos = GetSplinePoint(t);
         gPos = GetSplineGradient(t);
 
-        gLen = sqrtf(pos.x * pos.x + pos.z * pos.z);
-
-        previous_pos = pos;
-        previous_gPos = gPos;
+        gLen = sqrtf(gPos.x * gPos.x + gPos.z * gPos.z);
 
         float x = pos.x + trackWidth * (-gPos.z / gLen);
         float z = pos.z + trackWidth * (gPos.x / gLen);
 
-        float x2 = pos.x + trackWidth * (gPos.z / gLen);
-        float z2 = pos.z + trackWidth * (-gPos.x / gLen);
+        float x2 = pos.x - trackWidth * (-gPos.z / gLen);
+        float z2 = pos.z - trackWidth * (gPos.x / gLen);
+
+        previous_pos = { x,0.f,z };
+        previous_pos2 = { x2,0.f,z2 };
+
+        previous_gPos = gPos;
 
         tracks.push_back({ x,0.f,z });
         tracks2.push_back({ x2,0.f,z2 });
