@@ -39,7 +39,7 @@ ImGuiManager::~ImGuiManager()
     ImGui::DestroyContext();
 }
 
-void ImGuiManager::ImGuiRender(ObjectManager* objManager, SplinePath* s)
+void ImGuiManager::ImGuiRender(ObjectManager* objManager, SplinePath* s, SplinePath* s2, SplinePath* s3)
 {
     ImGui_ImplOpenGL3_NewFrame();
     ImGui_ImplGlfw_NewFrame();
@@ -48,7 +48,7 @@ void ImGuiManager::ImGuiRender(ObjectManager* objManager, SplinePath* s)
     static int vectorType = 2;
     static int drawType = 0;
 
-    ShowPointsInformationWindow(s);
+    ShowPointsInformationWindow(s, s2, s3);
     
 
     //ImGui::End();
@@ -56,7 +56,7 @@ void ImGuiManager::ImGuiRender(ObjectManager* objManager, SplinePath* s)
     ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 }
 
-void ImGuiManager::ShowPointsInformationWindow(SplinePath* s)
+void ImGuiManager::ShowPointsInformationWindow(SplinePath* s, SplinePath* s2, SplinePath* s3)
 {
     if (!ImGui::CollapsingHeader("Spline Points"))
     {
@@ -68,11 +68,15 @@ void ImGuiManager::ShowPointsInformationWindow(SplinePath* s)
     if (ImGui::Button("Add Point"))
     {
         s->AddSplinePoint();
+        s2->AddSplinePoint();
+        s3->AddSplinePoint();
     }
     ImGui::SameLine();
     if (ImGui::Button("Delete Current Point"))
     {
         s->DeleteCurrentSplinePoint();
+        s2->DeleteCurrentSplinePoint();
+        s3->DeleteCurrentSplinePoint();
     }
 
     ImGui::Text("Change point");
@@ -81,11 +85,15 @@ void ImGuiManager::ShowPointsInformationWindow(SplinePath* s)
     if (ImGui::ArrowButton("##left", ImGuiDir_Left))
     {
         s->NextSplinePoints(true);
+        s2->NextSplinePoints(true);
+        s3->NextSplinePoints(true);
     }
     ImGui::SameLine(0.f, ImGui::GetStyle().ItemInnerSpacing.x);
     if (ImGui::ArrowButton("##right", ImGuiDir_Right))
     {
         s->NextSplinePoints(false);
+        s2->NextSplinePoints(false);
+        s3->NextSplinePoints(false);
     }
     ImGui::PopButtonRepeat();
 

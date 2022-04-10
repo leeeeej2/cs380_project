@@ -28,9 +28,9 @@ public:
     ImGuiManager(GLFWwindow* window);
     ~ImGuiManager();
 
-    void ImGuiRender(ObjectManager* objManager, SplinePath* s);
+    void ImGuiRender(ObjectManager* objManager, SplinePath* s, SplinePath* s2, SplinePath* s3);
 
-    void ShowPointsInformationWindow(SplinePath* s);
+    void ShowPointsInformationWindow(SplinePath* s, SplinePath* s2, SplinePath* s3);
 
 
 private:

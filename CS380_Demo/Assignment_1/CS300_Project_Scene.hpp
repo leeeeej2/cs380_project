@@ -64,6 +64,8 @@ private:
     
     ObjectManager objectManager;
     SplinePath splinePath;
+    SplinePath trackLeft;
+    SplinePath trackRight;
 
     float rotationAngle = 0.f;
 

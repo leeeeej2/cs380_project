@@ -106,18 +106,24 @@ int CS300_Project_Scene::Render()
 
     scaleVector = glm::vec3(1.f);
     translate = glm::vec3(distance, 0.f, 0.f);
-    splinePath.DrawSplinePoints(&objectManager, projection, camera, BLUE);
-    
+    //splinePath.DrawSplinePoints(&objectManager, projection, camera, BLUE);
+    trackLeft.DrawSplinePoints(&objectManager, projection, camera, BLUE);
+    //trackRight.DrawSplinePoints(&objectManager, projection, camera, BLUE);
+
     glUseProgram(line_shader);
     translate = glm::vec3(0, 0, 0);
     angleOfRotation = 0.f;
     modelMat = glm::translate(translate) * glm::rotate(angleOfRotation, rotateVector) * glm::scale(scaleVector);
     splinePath.DrawSplinePath(&line_shader, modelMat, projection, camera, RED);
+    trackLeft.DrawTrackPath(&line_shader, modelMat, projection, camera, GREEN);
+    trackRight.DrawTrackPath2(&line_shader, modelMat, projection, camera, GREEN);
 
     glEnable(GL_DEPTH_TEST);
     glUseProgram(0);
 
-    imGui->ImGuiRender(&objectManager, &splinePath);
+    imGui->ImGuiRender(&objectManager, &splinePath, &trackLeft, &trackRight);
+    //imGui->ImGuiRender(&objectManager, &trackLeft);
+    //imGui->ImGuiRender(&objectManager, &trackRight);
 
     return 0;
 }
@@ -133,18 +139,26 @@ void CS300_Project_Scene::KeyboardInput(GLFWwindow* window)
     if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
     {
         splinePath.MoveCurrentPoints(true, true);
+        trackLeft.MoveCurrentPoints(true, true);
+        trackRight.MoveCurrentPoints(true, true);
     }
     if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
     {
         splinePath.MoveCurrentPoints(false, false);
+        trackLeft.MoveCurrentPoints(false, false);
+        trackRight.MoveCurrentPoints(false, false);
     }
     if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
     {
         splinePath.MoveCurrentPoints(true, false);
+        trackLeft.MoveCurrentPoints(true, false);
+        trackRight.MoveCurrentPoints(true, false);
     }
     if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
     {
         splinePath.MoveCurrentPoints(false, true);
+        trackLeft.MoveCurrentPoints(false, true);
+        trackRight.MoveCurrentPoints(false, true);
     }
 }
 
