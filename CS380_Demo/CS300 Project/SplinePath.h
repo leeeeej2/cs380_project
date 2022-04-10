@@ -12,9 +12,12 @@ public:
     ~SplinePath();
 
     void DrawSplinePoints(ObjectManager* m, glm::mat4 proj, glm::mat4 cam, glm::vec3 c);
-    void DrawSplinePath(GLuint* shader, glm::mat4 transform, glm::mat4 proj, glm::mat4 cam, glm::vec3 color);
+    void DrawSplinePath(GLuint* shader, glm::mat4 transform, glm::mat4 proj, glm::mat4 cam, glm::vec3 color, bool IsOptimized = false);
     void DrawTrackPath(GLuint* shader, glm::mat4 transform, glm::mat4 proj, glm::mat4 cam, glm::vec3 color);
     void DrawTrackPath2(GLuint* shader, glm::mat4 transform, glm::mat4 proj, glm::mat4 cam, glm::vec3 color);
+
+    void OptimizationPath();
+
 
     void NextSplinePoints(bool to_left);
 
@@ -25,12 +28,12 @@ public:
     
     void MoveCurrentPoints(bool to_front, bool way);// go front or left, go back or right
 
-    glm::vec3 GetSplinePoint(float t);
-    glm::vec3 GetSplineGradient(float t);
+    glm::vec3 GetSplinePoint(float t, bool IsOptimized = false);
+    glm::vec3 GetSplineGradient(float t, bool IsOptimized = false);
 
     void CalculationSplinePoint();
     void CalculationTrackPoint();
-    void UpdateBuffers();
+    void UpdateBuffers(bool IsOptimized = false);
     void UpdateBuffersTrack();
     void UpdateBuffersTrack2();
 
@@ -41,6 +44,14 @@ private:
     std::vector<glm::vec3> tracks2;
     glm::vec3 scale;
     
+    std::vector<glm::vec3> optimizedPoints;
+    std::vector<float> displacement;
+    std::vector<glm::vec3> optimizedSpline;
+    bool first = true;
+
+    GLuint optimizedVao;
+    GLuint optimizedVbo;
+
     GLuint vao;
     GLuint vao2;
     GLuint vao3;

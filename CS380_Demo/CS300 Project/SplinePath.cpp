@@ -14,7 +14,12 @@ SplinePath::SplinePath()
         transform = glm::rotate(rotation, rotate_vector)* glm::vec4(translate_vector,1.f);
         points.push_back({ transform.x, transform.y, transform.z });
     }
-    
+
+    for (int i = 0; i < 10; i++)
+    {
+        optimizedPoints.push_back(glm::vec3(0, 0, 0));
+        displacement.push_back(0.f);
+    }
     /*points.push_back({ distance, 0, 0 });
     points.push_back({ 0,0,-distance });
     points.push_back({ -distance,0,0 });
@@ -23,14 +28,17 @@ SplinePath::SplinePath()
 
     CalculationSplinePoint();
     CalculationTrackPoint();
+    OptimizationPath();
 
     glGenVertexArrays(1, &vao);
     glGenVertexArrays(1, &vao2);
     glGenVertexArrays(1, &vao3);
+    glGenVertexArrays(1, &optimizedVao);
 
     glGenBuffers(1, &vbo);
     glGenBuffers(1, &vbo2);
     glGenBuffers(1, &vbo3);
+    glGenBuffers(1, &optimizedVbo);
 
     glBindVertexArray(vao);
     glBindBuffer(GL_ARRAY_BUFFER, vbo);
@@ -47,6 +55,12 @@ SplinePath::SplinePath()
     glBindVertexArray(vao3);
     glBindBuffer(GL_ARRAY_BUFFER, vbo3);
     glBufferData(GL_ARRAY_BUFFER, sizeof(glm::vec3) * tracks2.size(), &tracks2[0].x, GL_DYNAMIC_DRAW);
+    glEnableVertexAttribArray(0);//spline position 
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
+
+    glBindVertexArray(optimizedVao);
+    glBindBuffer(GL_ARRAY_BUFFER, optimizedVbo);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(glm::vec3) * optimizedSpline.size(), &optimizedSpline[0].x, GL_DYNAMIC_DRAW);
     glEnableVertexAttribArray(0);//spline position 
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
 }
@@ -79,7 +93,7 @@ void SplinePath::DrawSplinePoints(ObjectManager* m, glm::mat4 proj, glm::mat4 ca
     }
 }
 
-void SplinePath::DrawSplinePath(GLuint* shader, glm::mat4 transform, glm::mat4 proj, glm::mat4 cam, glm::vec3 color)
+void SplinePath::DrawSplinePath(GLuint* shader, glm::mat4 transform, glm::mat4 proj, glm::mat4 cam, glm::vec3 color, bool IsOptimized)
 {
     GLint uniform_transform = glGetUniformLocation(*shader, "transform");
     GLint uniform_camera = glGetUniformLocation(*shader, "cameraMatrix");
@@ -93,16 +107,112 @@ void SplinePath::DrawSplinePath(GLuint* shader, glm::mat4 transform, glm::mat4 p
     glUniform3f(uniform_color, color.x, color.y, color.z);
 
     //update vertex
-    UpdateBuffers();
+    UpdateBuffers(IsOptimized);
 
-    //set vertex buffer
-    glBindVertexArray(vao);
-    glEnableVertexAttribArray(0);
+    if (IsOptimized)
+    {
+        glBindVertexArray(optimizedVao);
+        glEnableVertexAttribArray(0);
 
-    glBindBuffer(GL_ARRAY_BUFFER, vbo);
-    glDrawArrays(GL_LINES, 0, (GLsizei)spline_pts.size());
-    glDisableVertexAttribArray(0);
-    glBindVertexArray(0);
+        glBindBuffer(GL_ARRAY_BUFFER, optimizedVbo);
+        glDrawArrays(GL_LINES, 0, (GLsizei)optimizedSpline.size());
+        glDisableVertexAttribArray(0);
+        glBindVertexArray(0);
+    }
+    else
+    {
+        //set vertex buffer
+        glBindVertexArray(vao);
+        glEnableVertexAttribArray(0);
+
+        glBindBuffer(GL_ARRAY_BUFFER, vbo);
+        glDrawArrays(GL_LINES, 0, (GLsizei)spline_pts.size());
+        glDisableVertexAttribArray(0);
+        glBindVertexArray(0);
+    }
+  
+}
+
+void SplinePath::OptimizationPath()
+{
+    for (int i = 0; i < points.size(); i++)
+    {
+        optimizedPoints[i] = points[i];
+        displacement[i] = 0.f;
+    }
+
+    for (int i = 0; i < 43; i++)
+    {
+        for (int j = 0; j < optimizedPoints.size(); j++)
+        {
+            glm::vec3 left = optimizedPoints[(j + 1) % optimizedPoints.size()];
+            glm::vec3 middle = optimizedPoints[j];
+            glm::vec3 right = optimizedPoints[(j + (optimizedPoints.size() - 1)) % optimizedPoints.size()];
+
+            left = left - middle;
+            right = right - middle;
+
+            float leftLength = glm::dot(left, left);
+            float rightLength = glm::dot(right, right);
+
+            left = left / leftLength;
+            right = right / rightLength;
+
+            glm::vec3 sumVec = left + right;
+            float sumLength = glm::dot(sumVec, sumVec);
+            sumVec = sumVec / sumLength;
+
+            glm::vec3 gradient = GetSplineGradient(j, true);
+            float gradientLength = glm::dot(gradient, gradient);
+            gradient = gradient / gradientLength;
+
+            glm::vec3 gradientNormal = glm::vec3(-gradient.z, 0, gradient.x);
+            float displace = glm::dot(gradientNormal, sumVec);
+
+            displacement[j] += (displace * 0.003f);
+        }
+
+        for (int j = 0; j < points.size(); j++)
+        {
+            if (displacement[j] >= 0.5f)
+            {
+                displacement[j] = 0.5f;
+            }
+            if (displacement[j] <= -0.5f)
+            {
+                displacement[j] = -0.5f;
+            }
+
+            glm::vec3 gradient = GetSplineGradient(j, true);
+            float gradientLength = glm::dot(gradient, gradient);
+            gradient = gradient / gradientLength;
+            glm::vec3 gradientNormal = glm::vec3(-gradient.z, 0, gradient.x);
+
+            optimizedPoints[j] = points[j] + (gradientNormal * displacement[j]);
+        }
+    }
+
+    optimizedSpline.clear();
+
+    float size = (float)optimizedPoints.size();
+    float step = optimizedPoints.size() * 5;
+    float alpha = 1 / step;
+
+    glm::vec3 pos;
+    glm::vec3 previous_pos;
+
+    previous_pos = GetSplinePoint(0, true);
+
+    for (float t = 0.05f; t < size; t += 0.05f)
+    {
+        optimizedSpline.push_back(previous_pos);
+
+        pos = GetSplinePoint(t, true);
+        previous_pos = pos;
+
+        optimizedSpline.push_back(pos);
+    }
+
 }
 
 void SplinePath::DrawTrackPath(GLuint* shader, glm::mat4 transform, glm::mat4 proj, glm::mat4 cam, glm::vec3 color)
@@ -231,16 +341,22 @@ void SplinePath::MoveCurrentPoints(bool to_front, bool way)
     }
     CalculationSplinePoint();
     CalculationTrackPoint();
+    OptimizationPath();
+
     UpdateBuffers();
     UpdateBuffersTrack();
     UpdateBuffersTrack2();
+    UpdateBuffers(true);
 }
 
-glm::vec3 SplinePath::GetSplinePoint(float t)
+glm::vec3 SplinePath::GetSplinePoint(float t, bool IsOptimized)
 {
     int p0, p1, p2, p3;
     int size = points.size();
-
+    if (IsOptimized == true)
+    {
+        size = optimizedPoints.size();
+    }
     p1 = ((int)t) % size;
     p2 = (p1 + 1) % size;
     p3 = (p1 + 2) % size;
@@ -266,15 +382,22 @@ glm::vec3 SplinePath::GetSplinePoint(float t)
 
     float tx = 0.5f * (points[p0].x * q1 + points[p1].x * q2 + points[p2].x * q3 + points[p3].x * q4);
     float tz = 0.5f * (points[p0].z * q1 + points[p1].z * q2 + points[p2].z * q3 + points[p3].z * q4);
-
+    if (IsOptimized == true)
+    {
+        float tx = 0.5f * (optimizedPoints[p0].x * q1 + optimizedPoints[p1].x * q2 + optimizedPoints[p2].x * q3 + optimizedPoints[p3].x * q4);
+        float tz = 0.5f * (optimizedPoints[p0].z * q1 + optimizedPoints[p1].z * q2 + optimizedPoints[p2].z * q3 + optimizedPoints[p3].z * q4);
+    }
     return { tx, 0, tz };
 }
 
-glm::vec3 SplinePath::GetSplineGradient(float t)
+glm::vec3 SplinePath::GetSplineGradient(float t, bool IsOptimized)
 {
     int p0, p1, p2, p3;
     int size = points.size();
-
+    if (IsOptimized == true)
+    {
+        size = optimizedPoints.size();
+    }
     p1 = ((int)t) % size;
     p2 = (p1 + 1) % size;
     p3 = (p1 + 2) % size;
@@ -300,7 +423,10 @@ glm::vec3 SplinePath::GetSplineGradient(float t)
 
     float tx = 0.5f * (points[p0].x * q1 + points[p1].x * q2 + points[p2].x * q3 + points[p3].x * q4);
     float tz = 0.5f * (points[p0].z * q1 + points[p1].z * q2 + points[p2].z * q3 + points[p3].z * q4);
-
+    {
+        float tx = 0.5f * (optimizedPoints[p0].x * q1 + optimizedPoints[p1].x * q2 + optimizedPoints[p2].x * q3 + optimizedPoints[p3].x * q4);
+        float tz = 0.5f * (optimizedPoints[p0].z * q1 + optimizedPoints[p1].z * q2 + optimizedPoints[p2].z * q3 + optimizedPoints[p3].z * q4);
+    }
     return { tx, 0, tz };
 }
 
@@ -373,10 +499,19 @@ void SplinePath::CalculationTrackPoint()
 
 }
 
-void SplinePath::UpdateBuffers()
+void SplinePath::UpdateBuffers(bool Isoptimized)
 {
-    glBindBuffer(GL_ARRAY_BUFFER, vbo);
-    glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(glm::vec3) * spline_pts.size(), &spline_pts[0]);
+    if (Isoptimized)
+    {
+        glBindBuffer(GL_ARRAY_BUFFER, optimizedVbo);
+        glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(glm::vec3) * optimizedSpline.size(), &optimizedSpline[0]);
+    }
+    else
+    {
+        glBindBuffer(GL_ARRAY_BUFFER, vbo);
+        glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(glm::vec3) * spline_pts.size(), &spline_pts[0]);
+    }
+
 }
 
 void SplinePath::UpdateBuffersTrack()

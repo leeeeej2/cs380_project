@@ -118,6 +118,9 @@ int CS300_Project_Scene::Render()
     trackLeft.DrawTrackPath(&line_shader, modelMat, projection, camera, GREEN);
     trackRight.DrawTrackPath2(&line_shader, modelMat, projection, camera, GREEN);
 
+    splinePath.OptimizationPath();
+    splinePath.DrawSplinePath(&line_shader, modelMat, projection, camera, BLUE, true);
+
     glEnable(GL_DEPTH_TEST);
     glUseProgram(0);
 
