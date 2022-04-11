@@ -26,6 +26,11 @@ SplinePath::SplinePath()
 	CalculationTrackPoint();
 	CalculationOptimizationPath();
 
+	pre_pos = optimizedPoints[0];
+	curr_pos = GetSplinePoint(TIME, true);
+	car_position_time += TIME * 2;
+	pro_pos = GetSplinePoint(car_position_time, true);
+
 	glGenVertexArrays(1, &vao);
 	glGenVertexArrays(1, &vao2);
 	glGenVertexArrays(1, &vao3);
@@ -366,6 +371,7 @@ void SplinePath::MoveCurrentPoints(bool to_front, bool way)
 	UpdateBuffersTrack();
 	UpdateBuffersTrack2();
 	UpdateOptimizedBuffers();
+
 }
 
 glm::vec3 SplinePath::GetSplinePoint(float t, bool IsOptimized)
@@ -571,4 +577,57 @@ void SplinePath::IncreaseIteration()
 	iterationNum++;
 	CalculationOptimizationPath();
 	UpdateOptimizedBuffers();
+}
+
+glm::vec3 SplinePath::GetSplinePositionForCar()
+{
+    car_position_time += TIME;
+
+    if (optimizedSpline.size() <= car_position_time)
+    {
+	car_position_time = 0.f;
+    }
+
+    pre_pos = curr_pos;
+    curr_pos = pro_pos;
+    pro_pos = GetSplinePoint(car_position_time, true);
+    return curr_pos;
+}
+
+float SplinePath::GetCarRotationAngle()
+{
+   /* glm::vec3 g = GetSplineGradient(car_position_time, true);
+    float angle = atan2f(g.z, g.x);
+
+    return angle;*/
+
+
+    //glm::vec3 new_pro_pos = 1000.f * pro_pos;
+    //glm::vec3 new_curr_pos = 1000.f * curr_pos;
+    //glm::vec3 new_pre_pos = 1000.f * pre_pos;
+    
+    glm::vec3 new_pro_pos = pro_pos;
+    glm::vec3 new_curr_pos = curr_pos;
+    glm::vec3 new_pre_pos = pre_pos;
+
+    glm::vec3 pro_vec = (new_pro_pos - new_curr_pos);
+    glm::vec3 curr_vec = (new_curr_pos - new_pre_pos);
+
+    float length = glm::length(pro_vec) * glm::length(curr_vec);
+    float dot = glm::dot(pro_vec, curr_vec) / length;
+    float angle = 0.f;
+    if (dot <= -1.f)
+    {
+	angle = PI;
+    }
+    else if (dot >= 1.f)
+    {
+	angle = 0.f;
+    }
+    else
+    {
+	angle = std::acos(dot);
+    }
+    car_rotation += angle;
+    return car_rotation;
 }

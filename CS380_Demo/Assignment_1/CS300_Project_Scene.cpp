@@ -83,10 +83,6 @@ void CS300_Project_Scene::ResizeWindow(int width, int height)
 
 int CS300_Project_Scene::Render()
 {
-    t2 = std::chrono::system_clock::now();
-    std::chrono::duration<float> time = t2 - t1;
-    t1 = t2;
-    float deltaTime = time.count();
     camera = CameraToWorld(cam);
     float aspect = static_cast<float>(windowWidth) / static_cast<float>(windowHeight);
     projection = glm::perspective(glm::radians(45.f), aspect, 0.1f, 100.f);
@@ -98,14 +94,13 @@ int CS300_Project_Scene::Render()
     glCullFace(GL_BACK);
 
     glUseProgram(programID);
-    glm::mat4 orbitMat = glm::mat4(0.50f);
-    objectManager.SetUniforms(projection, camera, orbitMat);
-    //objectManager.DrawOrbit();
     
     glm::mat4 modelMat = glm::mat4(1.0f);
     float distance = 10.f / PI;
     glm::vec3 scaleVector = glm::vec3(1.f);
     glm::vec3 translate = glm::vec3(0.f);
+    glm::vec3 car_translate = splinePath.GetSplinePositionForCar();
+    float car_rotation_angle = splinePath.GetCarRotationAngle();
     glm::vec3 rotateVector = glm::vec3(0.f, 1.0f, 0.f);
     float angleOfRotation = 0.f;
     glm::vec3 lightPosition = glm::vec3(4.f, 2.f, 0.f);
@@ -114,14 +109,13 @@ int CS300_Project_Scene::Render()
 
     scaleVector = glm::vec3(0.3f,0.3f,0.7f);
     angleOfRotation = PI / 2;
-    objectManager.SetTransforms(ObjectTypeEnum::eCAR, translate, scaleVector, angleOfRotation, rotateVector);
+
+    objectManager.SetTransforms(ObjectTypeEnum::eCAR, car_translate, scaleVector, car_rotation_angle, rotateVector);
     objectManager.DrawObject(ObjectTypeEnum::eCAR, projection, camera, YELLOW);
 
     scaleVector = glm::vec3(1.f);
     translate = glm::vec3(distance, 0.f, 0.f);
-    //splinePath.DrawSplinePoints(&objectManager, projection, camera, BLUE);
     trackLeft.DrawSplinePoints(&objectManager, projection, camera, BLUE);
-    //trackRight.DrawSplinePoints(&objectManager, projection, camera, BLUE);
 
     glUseProgram(line_shader);
     translate = glm::vec3(0, 0, 0);

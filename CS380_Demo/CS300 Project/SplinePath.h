@@ -5,6 +5,8 @@
 #include <glm/gtx/transform.hpp>
 #include "ObjectManager.h"
 
+#define TIME 0.005f
+
 class SplinePath
 {
 public:
@@ -43,6 +45,9 @@ public:
 
     void IncreaseIteration();
 
+    glm::vec3 GetSplinePositionForCar();
+    float GetCarRotationAngle();
+
     int iterationNum = 0;
     float car = 0.f;
     glm::vec3 coordinate;
@@ -72,5 +77,11 @@ private:
     GLuint vbo3;
 
     int current_pts;
+    float car_position_time;
+    float car_rotation = 0.f;
+    glm::vec3 pre_pos;
+    glm::vec3 curr_pos;
+    glm::vec3 pro_pos;
+
 };
 
