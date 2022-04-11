@@ -13,6 +13,7 @@ End Header --------------------------------------------------------*/
 #include <iostream>
 #include "CS300_Project_Scene.hpp"
 #include "shader.hpp"
+#include <chrono>
 
 const glm::vec3 SALMON(1, 0.453f, 0.453f),
                 LIGHTPINK(1, 0.68f, 0.906f),
@@ -23,6 +24,8 @@ const glm::vec3 SALMON(1, 0.453f, 0.453f),
                 YELLOW(1.f,1.f,0.2f);
 
 const float PI = 4.0f * atan(1.0f);
+auto t1 = std::chrono::system_clock::now();
+auto t2 = std::chrono::system_clock::now();
 
 CS300_Project_Scene::CS300_Project_Scene(int windowWidth, int windowHeight) : Scene(windowWidth, windowHeight)
 {
@@ -58,6 +61,10 @@ int CS300_Project_Scene::Init()
                             "../Common/shaders/FragmentShader.frag");
     line_shader = LoadShaders("../Common/shaders/LineVertexShader.vert",
                                "../Common/shaders/LineFragmentShader.frag");
+
+    t1 = std::chrono::system_clock::now();
+    t2 = std::chrono::system_clock::now();
+
     SetupBuffers();
     return Scene::Init();
 }
@@ -76,6 +83,10 @@ void CS300_Project_Scene::ResizeWindow(int width, int height)
 
 int CS300_Project_Scene::Render()
 {
+    t2 = std::chrono::system_clock::now();
+    std::chrono::duration<float> time = t2 - t1;
+    t1 = t2;
+    float deltaTime = time.count();
     camera = CameraToWorld(cam);
     float aspect = static_cast<float>(windowWidth) / static_cast<float>(windowHeight);
     projection = glm::perspective(glm::radians(45.f), aspect, 0.1f, 100.f);

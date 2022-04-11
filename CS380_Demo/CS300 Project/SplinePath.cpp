@@ -552,6 +552,20 @@ void SplinePath::UpdateOptimizedBuffers()
 	glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(glm::vec3) * optimizedSpline.size(), &optimizedSpline[0]);
 }
 
+void SplinePath::UpdateCar(float delta)
+{
+	car += 0.2f * delta;
+}
+
+void SplinePath::MovingCar()
+{
+	glm::vec3 splinePoint = GetSplinePoint(car, true);
+	glm::vec3 splineGradient = GetSplineGradient(car, true);
+
+	coordinate = glm::vec3(splinePoint.x, 0, splinePoint.z);
+	rotation = atan2f(splineGradient.z, splineGradient.x);
+}
+
 void SplinePath::IncreaseIteration()
 {
 	iterationNum++;

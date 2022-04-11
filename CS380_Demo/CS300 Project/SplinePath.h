@@ -38,8 +38,16 @@ public:
     void UpdateBuffersTrack2();
     void UpdateOptimizedBuffers();
 
-    int iterationNum = 0;
+    void UpdateCar(float delta);
+    void MovingCar();
+
     void IncreaseIteration();
+
+    int iterationNum = 0;
+    float car = 0.f;
+    glm::vec3 coordinate;
+    float rotation = 0.f;
+
 private:
     std::vector<glm::vec3> points;
     std::vector<glm::vec3> spline_pts;
