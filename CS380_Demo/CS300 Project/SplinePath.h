@@ -44,6 +44,7 @@ public:
     void MovingCar();
 
     void IncreaseIteration();
+    void resetInteration();
 
     glm::vec3 GetSplinePositionForCar();
     float GetCarRotationAngle();

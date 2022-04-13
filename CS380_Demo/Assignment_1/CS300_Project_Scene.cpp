@@ -188,6 +188,10 @@ void CS300_Project_Scene::KeyboardInput(GLFWwindow* window)
     {
         splinePath.IncreaseIteration();
     }
+    if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS)
+    {
+        splinePath.resetInteration();
+    }
 
 }
 

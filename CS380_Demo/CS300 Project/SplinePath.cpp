@@ -579,6 +579,13 @@ void SplinePath::IncreaseIteration()
 	UpdateOptimizedBuffers();
 }
 
+void SplinePath::resetInteration()
+{
+	iterationNum = 0.f;
+	CalculationOptimizationPath();
+	UpdateOptimizedBuffers();
+}
+
 glm::vec3 SplinePath::GetSplinePositionForCar()
 {
     car_position_time += TIME;
