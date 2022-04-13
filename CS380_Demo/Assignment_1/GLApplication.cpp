@@ -69,7 +69,7 @@ int main()
 
     // Open a window and create its OpenGL context
     window = glfwCreateWindow(windowWidth, windowHeight, // window dimensions
-                              "s.park_CS300_1", // window title
+                              "Optimized Racing Line - CS380AI", // window title
                               nullptr, // which monitor (if full-screen mode)
                               nullptr); // if sharing context with another window
     if (window == nullptr)

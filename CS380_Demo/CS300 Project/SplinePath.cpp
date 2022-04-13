@@ -596,15 +596,6 @@ glm::vec3 SplinePath::GetSplinePositionForCar()
 
 float SplinePath::GetCarRotationAngle()
 {
-   /* glm::vec3 g = GetSplineGradient(car_position_time, true);
-    float angle = atan2f(g.z, g.x);
-
-    return angle;*/
-
-
-    //glm::vec3 new_pro_pos = 1000.f * pro_pos;
-    //glm::vec3 new_curr_pos = 1000.f * curr_pos;
-    //glm::vec3 new_pre_pos = 1000.f * pre_pos;
     
     glm::vec3 new_pro_pos = pro_pos;
     glm::vec3 new_curr_pos = curr_pos;
