@@ -21,7 +21,8 @@ const glm::vec3 SALMON(1, 0.453f, 0.453f),
                 GREEN(0.f, 1.f, 0.f),
                 BLUE(0.f,0.f,1.f),
                 LIGHTBLUE(0.4824f, 0.6275f, 0.8941f),
-                YELLOW(1.f,1.f,0.2f);
+                YELLOW(1.f,1.f,0.2f),
+                WHITE(1.f,1.f, 1.f);
 
 const float PI = 4.0f * atan(1.0f);
 auto t1 = std::chrono::system_clock::now();
@@ -97,7 +98,7 @@ int CS300_Project_Scene::Render()
     
     glm::mat4 modelMat = glm::mat4(1.0f);
     float distance = 10.f / PI;
-    glm::vec3 scaleVector = glm::vec3(1.f);
+    glm::vec3 scaleVector = glm::vec3(0.25f);
     glm::vec3 translate = glm::vec3(0.f);
     glm::vec3 car_translate = splinePath.GetSplinePositionForCar();
     float car_rotation_angle = splinePath.GetCarRotationAngle();
@@ -107,11 +108,10 @@ int CS300_Project_Scene::Render()
 
     objectManager.SetLightPosition(lightPosition);
 
-    scaleVector = glm::vec3(0.3f,0.3f,0.7f);
     angleOfRotation = PI / 2;
 
-    objectManager.SetTransforms(ObjectTypeEnum::eCAR, car_translate, scaleVector, car_rotation_angle, rotateVector);
-    objectManager.DrawObject(ObjectTypeEnum::eCAR, projection, camera, YELLOW);
+    objectManager.SetTransforms(ObjectTypeEnum::eSPHERE, car_translate, scaleVector, car_rotation_angle, rotateVector);
+    objectManager.DrawObject(ObjectTypeEnum::eSPHERE, projection, camera, WHITE);
 
     scaleVector = glm::vec3(1.f);
     translate = glm::vec3(distance, 0.f, 0.f);
