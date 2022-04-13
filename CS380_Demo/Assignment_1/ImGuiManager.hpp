@@ -32,11 +32,15 @@ public:
 
     void ShowPointsInformationWindow(SplinePath* s, SplinePath* s2, SplinePath* s3);
     void ShowCameraWindow();
+    void ShowCar();
 
     bool GetCameraChangeButton();
     bool GetCameraPosition();
 
+    bool GetMovingCar();
+
 private:
     bool camera_position;
     bool change_camera_button = false;
+    bool moving_car = true;
 };

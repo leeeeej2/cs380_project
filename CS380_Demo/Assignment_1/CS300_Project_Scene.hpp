@@ -69,6 +69,8 @@ private:
     SplinePath trackRight;
 
     float rotationAngle = 0.f;
+    
+    glm::vec3 car_translate = glm::vec3(0.f);
 
     glm::mat4 bunny = glm::mat4(1.0f);
     glm::mat4 createdSphere[SPHERE_OBJECT_NUM] = { glm::mat4(1.0f) };

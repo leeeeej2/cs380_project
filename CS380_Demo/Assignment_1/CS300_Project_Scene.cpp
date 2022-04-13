@@ -100,7 +100,6 @@ int CS300_Project_Scene::Render()
     float distance = 10.f / PI;
     glm::vec3 scaleVector = glm::vec3(0.25f);
     glm::vec3 translate = glm::vec3(0.f);
-    glm::vec3 car_translate = splinePath.GetSplinePositionForCar();
     float car_rotation_angle = splinePath.GetCarRotationAngle();
     glm::vec3 rotateVector = glm::vec3(0.f, 1.0f, 0.f);
     float angleOfRotation = 0.f;
@@ -109,6 +108,11 @@ int CS300_Project_Scene::Render()
     objectManager.SetLightPosition(lightPosition);
 
     angleOfRotation = PI / 2;
+
+    if (imGui->GetMovingCar())
+    {
+        car_translate = splinePath.GetSplinePositionForCar();
+    }
 
     objectManager.SetTransforms(ObjectTypeEnum::eSPHERE, car_translate, scaleVector, car_rotation_angle, rotateVector);
     objectManager.DrawObject(ObjectTypeEnum::eSPHERE, projection, camera, WHITE);
@@ -138,12 +142,13 @@ int CS300_Project_Scene::Render()
     {
         if (imGui->GetCameraPosition() == true)
         {
-            cam.CameraSetUP(eye, target, up, fov, aspect, near_, far_);
+            cam.CameraSetUP(eye_2d, target, up_2d, fov, aspect, near_, far_);
             camera = CameraToWorld(cam);
         }
         else
         {
-            cam.CameraSetUP(eye_2d, target, up_2d, fov, aspect, near_, far_);
+            
+            cam.CameraSetUP(eye, target, up, fov, aspect, near_, far_);
             camera = CameraToWorld(cam);
         }
     }

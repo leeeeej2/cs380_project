@@ -51,6 +51,7 @@ void ImGuiManager::ImGuiRender(ObjectManager* objManager, SplinePath* s, SplineP
 
     ShowPointsInformationWindow(s, s2, s3);
     ShowCameraWindow();
+    ShowCar();
 
     //ImGui::End();
     ImGui::Render();
@@ -120,6 +121,27 @@ void ImGuiManager::ShowCameraWindow()
     }
 }
 
+void ImGuiManager::ShowCar()
+{
+    if (!ImGui::CollapsingHeader("Moving Object"))
+    {
+        return;
+    }
+
+    if (ImGui::Button("Stop Moving Object"))
+    {
+        if (moving_car == false)
+        {
+            moving_car = true;
+        }
+        else
+        {
+            moving_car = false;
+        }
+    }
+
+}
+
 bool ImGuiManager::GetCameraChangeButton()
 {
     if (change_camera_button == true)
@@ -134,4 +156,9 @@ bool ImGuiManager::GetCameraChangeButton()
 bool ImGuiManager::GetCameraPosition()
 {
     return camera_position;
+}
+
+bool ImGuiManager::GetMovingCar()
+{
+    return moving_car;
 }
